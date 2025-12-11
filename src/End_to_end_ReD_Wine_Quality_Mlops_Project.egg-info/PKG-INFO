@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: End_to_end_ReD_Wine_Quality_Mlops_Project
+Version: 0.0.1
+Summary: A complete end-to-end MLOps project for predicting wine quality using Red Wine dataset.
+Home-page: https://github.com/qosain-bukhari/End_to_end_ReD_Wine_Quality_Mlops_Project
+Author: qosain-bukhari
+Author-email: bukhariqosain824@gmail.com
+Project-URL: Bug Tracker, https://github.com/qosain-bukhari/End_to_end_ReD_Wine_Quality_Mlops_Project/issues
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: project-url
+Dynamic: requires-python
+Dynamic: summary
+
+End-to-end Red Wine Quality MLOps Project

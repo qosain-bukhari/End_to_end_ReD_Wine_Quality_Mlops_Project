@@ -12,4 +12,4 @@ Flask
 Flask-Cors
 setuptools==80.9.0
 wheel==0.45.1
-
+-e .
