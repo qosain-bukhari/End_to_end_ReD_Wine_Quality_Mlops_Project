@@ -11,6 +11,8 @@ Project_Name = "WineQuality_Project"
 list_of_files = [
     ".github/workflows/.gitkeep",
     f"src/{Project_Name}/__init__.py",
+    f"src/{Project_Name}/research/__init__.py",
+    
     f"src/{Project_Name}/components/__init__.py",
     f"src/{Project_Name}/utils/__init__.py",
     f"src/{Project_Name}/config/__init__.py",

@@ -1,0 +1,15 @@
+pandas
+numpy
+notebook
+scikit-learn
+matplotlib
+seaborn
+python-box==6.0.2
+pyyaml
+ensure==1.0.3
+joblib
+Flask
+Flask-Cors
+setuptools==80.9.0
+wheel==0.45.1
+
