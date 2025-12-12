@@ -1,0 +1,8 @@
+[2025-12-11 22:05:47] [INFO] WineQualityLogger - >> stage Data Ingestion stage started
+[2025-12-11 22:05:47] [INFO] WineQualityLogger - YAML file: config\config.yml loaded successfully
+[2025-12-11 22:05:47] [INFO] WineQualityLogger - YAML file: params.yaml loaded successfully
+[2025-12-11 22:05:47] [INFO] WineQualityLogger - YAML file: schema.yaml loaded successfully
+[2025-12-11 22:05:47] [INFO] WineQualityLogger - Directory created at: artifacts
+[2025-12-11 22:05:47] [INFO] WineQualityLogger - Directory created at: artifacts\data_ingestion
+[2025-12-11 22:05:47] [INFO] WineQualityLogger - Directory created at: artifacts\data_ingestion
+[2025-12-11 22:05:47] [INFO] WineQualityLogger - >>> stage Data Ingestion stage Completed Successfully
