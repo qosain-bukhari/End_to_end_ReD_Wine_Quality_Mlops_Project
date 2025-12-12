@@ -1,5 +1,35 @@
-mlproject/
+# Byte-compiled / optimized / cache files
 __pycache__/
-*.pyc
-.DS_Store
+*.py[cod]
+*$py.class
+
+# Environment / dependency folders
+env/
+venv/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE / editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints
+
+# Logs
+*.log
+
+# OS files
+.DS_Store       # macOS
+Thumbs.db       # Windows
+
+# Secrets / config files (optional, if sensitive)
 .env
+config.yaml
