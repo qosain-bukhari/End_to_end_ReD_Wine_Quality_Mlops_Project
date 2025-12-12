@@ -1,4 +1,4 @@
-COLUMN:
+columns:
   fixed_acidity: float64
   volatile_acidity: float64
   citric_acid: float64
@@ -12,5 +12,5 @@ COLUMN:
   alcohol: float64
   quality: int64
 
-  TARGET_COLUMN:
-    name: quality
+target_column:
+  name: quality
