@@ -7,63 +7,38 @@ from sklearn.model_selection import train_test_split
 from WineQuality_Project.entity.config_entity import DataTransformationconfig
 from sklearn.preprocessing import StandardScaler
 import joblib
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from pathlib import Path
+import logging
 
 class DataTransformation:
-    def __init__(self,config:DataTransformationconfig):
-        self.config=config
-    
+    def __init__(self, config: DataTransformationconfig):
+        self.config = config
+        self.config.root_dir.mkdir(parents=True, exist_ok=True)
+
     def initiate_data_transformation(self):
-        logging.info(" Starting Data Transformation Stage...")
-
         try:
+            # 1️⃣ Load the validated data
             df = pd.read_csv(self.config.data_path)
-            logging.info(f"Loaded dataset: {self.config.data_path}")
+            logging.info(f"Loaded data: {self.config.data_path}")
 
-            # --------------------------------------
-            # 1️⃣ Separate features and target
-            # --------------------------------------
-            X = df.drop(columns=["quality"])
-            y = df["quality"]
+            # 2️⃣ Split into train and test
+            train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
+            logging.info("Split data into train and test")
 
-            # --------------------------------------
-            # 2️⃣ Train–Test Split
-            # --------------------------------------
-            X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=0.2, random_state=42
-            )
+            # 3️⃣ Save the train and test CSVs
+            train_path = self.config.root_dir / "train.csv"
+            test_path = self.config.root_dir / "test.csv"
+            train_df.to_csv(train_path, index=False)
+            test_df.to_csv(test_path, index=False)
 
-            logging.info("Train-test split completed")
+            logging.info(f"Saved train.csv at: {train_path}")
+            logging.info(f"Saved test.csv at: {test_path}")
 
-            scalar=StandardScaler()
-            X_train_scaled=scalar.fit_transform(X_train)
-            X_test_scaled=scalar.transform(X_test)
+            # 4️⃣ Return paths for the next stage
+            return train_path, test_path
 
-            logging.info("Feature scaling completed")
-            train_path = Path(self.config.root_dir, "train.npy")
-            test_path = Path(self.config.root_dir, "test.npy")
-            ytrain_path = Path(self.config.root_dir, "y_train.npy")
-            ytest_path = Path(self.config.root_dir, "y_test.npy")
-            scaler_path = Path(self.config.root_dir, "scaler.pkl")
-
-            np.save(train_path, X_train_scaled)
-            np.save(test_path, X_test_scaled)
-            np.save(ytrain_path, y_train)
-            np.save(ytest_path, y_test)
-            
-
-            # save scaler
-            import joblib
-            joblib.dump(scalar, scaler_path)
-
-            logging.info(f"Artifacts saved inside: {self.config.root_dir}")
-
-            return {
-                "X_train": train_path,
-                "X_test": test_path,
-                "y_train": ytrain_path,
-                "y_test": ytest_path,
-                "scaler": scaler_path
-            }
         except Exception as e:
-             logging.error(f"Data Transformation failed: {e}")
-             raise e
+            logging.error(f"Data Transformation failed: {e}")
+            raise e
