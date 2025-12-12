@@ -2,7 +2,7 @@ import os
 from WineQuality_Project.constants import *
 from WineQuality_Project.utils.common import read_yaml,create_directories
 from WineQuality_Project.entity.config_entity import DataIngestionConfig
-from WineQuality_Project.entity.config_entity import DataValidationConfig
+from WineQuality_Project.entity.config_entity import DataValidationConfig,DataTransformationconfig
 class ConfigManager:
     def __init__(self,
                  config_filepath: Path = CONFIG_FILE_PATH,
@@ -36,3 +36,16 @@ class ConfigManager:
             status_file=Path(config['status_file']),
             all_schema=self.schema
         )
+    def get_data_transformation_config(self) -> DataTransformationconfig:
+        config = self.config["data_transformation"]   # ← FIXED (dict access)
+
+        root_dir = Path(config["root_dir"])
+        data_path = Path(config["data_path"])
+
+        create_directories([root_dir])  # ← FIXED
+
+        data_transformation_config = DataTransformationconfig(
+            root_dir=root_dir,
+            data_path=data_path
+        )
+        return data_transformation_config

@@ -16,3 +16,9 @@ class DataValidationConfig:
     raw_data_file: Path     # CSV file produced by Data Ingestion
     status_file: Path       # Path to save validation status (success/fail)
     all_schema: dict 
+
+
+@dataclass(frozen=True)
+class DataTransformationconfig:
+    root_dir:Path
+    data_path:Path

@@ -10,3 +10,7 @@ data_validation:
   root_dir: artifacts/data_validation             # Folder to store validation artifacts
   raw_data_file: artifacts/data_ingestion/WineQT.csv  # CSV file produced by data ingestion
   status_file: artifacts/data_validation/status.txt  # Status log file for validation
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data_ingestion/WineQT.csv
