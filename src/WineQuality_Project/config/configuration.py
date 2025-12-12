@@ -2,6 +2,7 @@ import os
 from WineQuality_Project.constants import *
 from WineQuality_Project.utils.common import read_yaml,create_directories
 from WineQuality_Project.entity.config_entity import DataIngestionConfig
+from WineQuality_Project.entity.config_entity import DataValidationConfig
 class ConfigManager:
     def __init__(self,
                  config_filepath: Path = CONFIG_FILE_PATH,
@@ -24,3 +25,14 @@ class ConfigManager:
             unzip_dir=Path(config['unzip_dir'])
         )
         return data_ingestion_config
+    
+    
+    def get_data_validation_config(self) -> DataValidationConfig:
+        config = self.config['data_validation']
+        create_directories([Path(config['root_dir'])])
+        return DataValidationConfig(
+            root_dir=Path(config['root_dir']),
+            raw_data_file=Path(config['raw_data_file']),
+            status_file=Path(config['status_file']),
+            all_schema=self.schema
+        )

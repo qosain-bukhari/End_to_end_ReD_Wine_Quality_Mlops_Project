@@ -1,8 +1,0 @@
-[2025-12-11 21:47:42] [INFO] WineQualityLogger - >> stage Data Ingestion stage started
-[2025-12-11 21:47:42] [INFO] WineQualityLogger - YAML file: D:\Data Science\project Series\End_to_end_ReD_Wine_Quality_Mlops_Project\config\config.yml loaded successfully
-[2025-12-11 21:47:42] [INFO] WineQualityLogger - YAML file: D:\Data Science\project Series\End_to_end_ReD_Wine_Quality_Mlops_Project\params.yaml loaded successfully
-[2025-12-11 21:47:42] [INFO] WineQualityLogger - YAML file: D:\Data Science\project Series\End_to_end_ReD_Wine_Quality_Mlops_Project\schema.yaml loaded successfully
-[2025-12-11 21:47:42] [INFO] WineQualityLogger - Directory created at: artifacts
-[2025-12-11 21:47:42] [INFO] WineQualityLogger - Directory created at: artifacts\data_ingestion
-[2025-12-11 21:47:42] [INFO] WineQualityLogger - Directory created at: artifacts\data_ingestion
-[2025-12-11 21:47:42] [INFO] WineQualityLogger - >>> stage Data Ingestion stage Completed Successfully

@@ -1,2 +1,2 @@
-Validation Status: SUCCESS ✅
-Data validation completed successfully ✅
+Validation Status: SUCCESS 
+Data validation completed successfully 
