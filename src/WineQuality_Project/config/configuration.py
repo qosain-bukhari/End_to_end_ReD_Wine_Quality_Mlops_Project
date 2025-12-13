@@ -1,7 +1,7 @@
 import os
 from WineQuality_Project.constants import *
 from WineQuality_Project.utils.common import read_yaml,create_directories
-from WineQuality_Project.entity.config_entity import DataIngestionConfig
+from WineQuality_Project.entity.config_entity import DataIngestionConfig,ModelTrainingConfig
 from WineQuality_Project.entity.config_entity import DataValidationConfig,DataTransformationconfig
 class ConfigManager:
     def __init__(self,
@@ -49,3 +49,19 @@ class ConfigManager:
             data_path=data_path
         )
         return data_transformation_config
+
+    def get_model_training_config(self) -> ModelTrainingConfig:
+        config = self.config['model_training']
+        params = self.params['model_trainer']
+
+        create_directories([Path(config['root_dir'])])
+
+        return ModelTrainingConfig(
+            root_dir=Path(config['root_dir']),
+            train_data_path=Path(config['train_data_path']),
+            test_data_path=Path(config['test_data_path']),
+            model_name=config['model_name'],
+            n_estimators=params['n_estimators'],
+            max_depth=params['max_depth'],
+            target_column=self.schema['target_column']
+        )
