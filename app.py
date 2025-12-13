@@ -2,40 +2,45 @@ import streamlit as st
 import pandas as pd
 from src.WineQuality_Project.pipeline.prediction import PredictionPipeline
 
-st.set_page_config(page_title="Wine Quality Predictor", layout="wide")
+# Page config
+st.set_page_config(page_title="Wine Quality Predictor 🍷", layout="wide")
 st.title("🍷 Wine Quality Prediction App")
 
-st.markdown("""
-Upload a CSV file with the following columns:  
-`fixed_acidity, volatile_acidity, citric_acid, residual_sugar, chlorides, free_sulfur_dioxide, total_sulfur_dioxide, density, pH, sulphates, alcohol`
-""")
+st.markdown("Enter the values for each feature to predict wine quality:")
 
-# Upload CSV
-uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
+# Input fields with default/example values
+fixed_acidity = st.number_input("Fixed Acidity", min_value=0.0, value=7.4, step=0.1)
+volatile_acidity = st.number_input("Volatile Acidity", min_value=0.0, value=0.70, step=0.01)
+citric_acid = st.number_input("Citric Acid", min_value=0.0, value=0.00, step=0.01)
+residual_sugar = st.number_input("Residual Sugar", min_value=0.0, value=1.9, step=0.1)
+chlorides = st.number_input("Chlorides", min_value=0.0, value=0.076, step=0.0001)
+free_sulfur_dioxide = st.number_input("Free Sulfur Dioxide", min_value=0.0, value=11.0, step=0.1)
+total_sulfur_dioxide = st.number_input("Total Sulfur Dioxide", min_value=0.0, value=34.0, step=0.1)
+density = st.number_input("Density", min_value=0.0, value=0.9978, step=0.0001)
+pH = st.number_input("pH", min_value=0.0, value=3.51, step=0.01)
+sulphates = st.number_input("Sulphates", min_value=0.0, value=0.56, step=0.01)
+alcohol = st.number_input("Alcohol", min_value=0.0, value=9.4, step=0.1)
 
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
+# Prepare input DataFrame
+input_df = pd.DataFrame({
+    "fixed_acidity": [fixed_acidity],
+    "volatile_acidity": [volatile_acidity],
+    "citric_acid": [citric_acid],
+    "residual_sugar": [residual_sugar],
+    "chlorides": [chlorides],
+    "free_sulfur_dioxide": [free_sulfur_dioxide],
+    "total_sulfur_dioxide": [total_sulfur_dioxide],
+    "density": [density],
+    "pH": [pH],
+    "sulphates": [sulphates],
+    "alcohol": [alcohol]
+})
 
-    # Standardize column names (replace spaces with _)
-    df.columns = df.columns.str.strip().str.replace(" ", "_")
-
-    st.subheader("Input Data Preview")
-    st.dataframe(df.head())
-
-    # Prediction
+# Predict button
+if st.button("Predict Wine Quality"):
     try:
-        predictor = PredictionPipeline()
-        predictions = predictor.predict(df)
-        df["Predicted_Quality"] = predictions
-
-        st.subheader("Prediction Results")
-        st.dataframe(df)
-
-        # Option to download results
-        csv = df.to_csv(index=False)
-        st.download_button("Download Predictions", csv, "predictions.csv", "text/csv")
-
-    except KeyError as ke:
-        st.error(f"Missing columns: {ke}")
+        predictor = PredictionPipeline(model_path="artifacts/model_trainer/model.joblib")
+        prediction = predictor.predict(input_df)
+        st.success(f"Predicted Wine Quality: {prediction[0]:.2f}")
     except Exception as e:
-        st.error(f"Error: {e}")
+        st.error(f"Error during prediction: {e}")

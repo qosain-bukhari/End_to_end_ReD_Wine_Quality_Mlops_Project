@@ -11,12 +11,17 @@ class ModelEvaluationPipeline:
         try:
             logger.info(f">>> Stage {STAGE_NAME} started")
             
-            # Get config
+            # Get evaluation config
             eval_config = self.config_manager.get_model_evaluation_config()
             
             # Initialize evaluation
             from WineQuality_Project.components.model_evaluation import ModelEvaluation
-            evaluator = ModelEvaluation(config=eval_config, target_column="quality")
+            evaluator = ModelEvaluation(
+                model_path=eval_config.model_path,
+                test_data_path=eval_config.test_data_path,
+                target_column="quality",
+                metric_file_path=eval_config.metric_file_path  # ✅ pass metric_file_path
+            )
             
             # Run evaluation
             metrics = evaluator.evaluate()
@@ -32,7 +37,7 @@ class ModelEvaluationPipeline:
 if __name__=='__main__':
     try:
         logger.info(f'>> stage {STAGE_NAME} started')
-        obj=ModelEvaluationPipeline()
+        obj = ModelEvaluationPipeline()
         obj.main()
         logger.info(f">>> stage {STAGE_NAME} Completed Successfully")
     except Exception as e:

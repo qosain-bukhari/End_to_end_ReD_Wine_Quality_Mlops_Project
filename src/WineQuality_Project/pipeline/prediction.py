@@ -1,29 +1,31 @@
-import joblib
 import pandas as pd
+import joblib
+from pathlib import Path
 
 class PredictionPipeline:
-    def __init__(self, model_path='artifacts/model_trainer/model.joblib'):
+    def __init__(self, model_path: str = "artifacts/model_trainer/model.joblib"):
+        # Check if model exists
+        if not Path(model_path).exists():
+            raise FileNotFoundError(f"Model not found at {model_path}")
+        
         # Load the trained model
         self.model = joblib.load(model_path)
-        # Columns expected by the trained model
-        self.expected_columns = [
-            "fixed_acidity", "volatile_acidity", "citric_acid", "residual_sugar",
-            "chlorides", "free_sulfur_dioxide", "total_sulfur_dioxide",
-            "density", "pH", "sulphates", "alcohol"
-        ]
+        
+        # Save the feature names used during training
+        self.feature_names = self.model.feature_names_in_
 
     def predict(self, data: pd.DataFrame):
-        # 1️⃣ Standardize column names: remove spaces and replace with _
+        # Standardize column names
+        data = data.copy()
         data.columns = data.columns.str.strip().str.replace(" ", "_")
 
-        # 2️⃣ Check for missing columns
-        missing_cols = [c for c in self.expected_columns if c not in data.columns]
+        # Ensure input columns match the training columns
+        missing_cols = [c for c in self.feature_names if c not in data.columns]
         if missing_cols:
-            raise ValueError(f"Missing columns in input: {missing_cols}")
+            raise ValueError(f"Missing columns: {missing_cols}")
 
-        # 3️⃣ Keep only expected columns in correct order
-        data = data[self.expected_columns]
+        # Keep only columns used during training
+        data = data[self.feature_names]
 
-        # 4️⃣ Make prediction
-        prediction = self.model.predict(data)
-        return prediction
+        # Return predictions
+        return self.model.predict(data)

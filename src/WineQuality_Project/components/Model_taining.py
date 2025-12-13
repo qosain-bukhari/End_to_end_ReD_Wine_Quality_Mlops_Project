@@ -9,33 +9,42 @@ class ModelTraining:
         self.config = config
 
     def train(self):
-        # Load data
-        train_df = pd.read_csv(self.config.train_data_path)
-        test_df = pd.read_csv(self.config.test_data_path)
+        try:
+            # Load data
+            train_df = pd.read_csv(self.config.train_data_path)
+            test_df = pd.read_csv(self.config.test_data_path)
 
-        # Split features & target
-        X_train = train_df.drop(self.config.target_column, axis=1)
-        y_train = train_df[self.config.target_column]
+            # Drop any identifier column if exists (like 'Id')
+            if 'Id' in train_df.columns:
+                train_df = train_df.drop('Id', axis=1)
+            if 'Id' in test_df.columns:
+                test_df = test_df.drop('Id', axis=1)
 
-        X_test = test_df.drop(self.config.target_column, axis=1)
-        y_test = test_df[self.config.target_column]
+            # Split features & target
+            X_train = train_df.drop(self.config.target_column, axis=1)
+            y_train = train_df[self.config.target_column]
 
-        # Model
-        model = RandomForestRegressor(
-            n_estimators=self.config.n_estimators,
-            max_depth=self.config.max_depth,
-            random_state=42
-        )
+            X_test = test_df.drop(self.config.target_column, axis=1)
+            y_test = test_df[self.config.target_column]
 
-        # Train
-        model.fit(X_train, y_train)
+            # Model
+            model = RandomForestRegressor(
+                n_estimators=self.config.n_estimators,
+                max_depth=self.config.max_depth,
+                random_state=42
+            )
 
-        # Save model
-        model_path = os.path.join(
-            self.config.root_dir,
-            self.config.model_name
-        )
+            # Train
+            model.fit(X_train, y_train)
 
-        joblib.dump(model, model_path)
+            # Save model
+            os.makedirs(self.config.root_dir, exist_ok=True)
+            model_path = os.path.join(self.config.root_dir, self.config.model_name)
+            joblib.dump(model, model_path)
 
-        return model
+            print(f"Model trained and saved at: {model_path}")
+            return model
+
+        except Exception as e:
+            print(f"Error during training: {e}")
+            raise e
