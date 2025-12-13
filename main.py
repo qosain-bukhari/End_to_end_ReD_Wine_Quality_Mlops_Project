@@ -3,6 +3,7 @@ from WineQuality_Project.pipeline.stage_01_data_ingestion import DataIngestionTr
 from WineQuality_Project.pipeline.stage_02_data_validation import DatavalidationTrainingPipline
 from WineQuality_Project.pipeline.stage_03_data_tranform import DatatransformTrainingPipline
 from WineQuality_Project.pipeline.stage_04_Model_Training import ModelTrainingPipeline
+from WineQuality_Project.pipeline.stage_05_evaluation import ModelEvaluationPipeline
 STAGE_NAME="Data Ingestion stage"
 try:
         logger.info(f'>> stage {STAGE_NAME} started')
@@ -39,6 +40,19 @@ STAGE_NAME="Model taining stage"
 try:
         logger.info(f'>> stage {STAGE_NAME} started')
         obj = ModelTrainingPipeline()
+        obj.main()
+        logger.info(f">>> stage {STAGE_NAME} Completed Successfully")
+
+except Exception as e:
+        raise e
+
+
+
+STAGE_NAME = "Model Evaluation Stage"
+
+try:
+        logger.info(f'>> stage {STAGE_NAME} started')
+        obj = ModelEvaluationPipeline()
         obj.main()
         logger.info(f">>> stage {STAGE_NAME} Completed Successfully")
 

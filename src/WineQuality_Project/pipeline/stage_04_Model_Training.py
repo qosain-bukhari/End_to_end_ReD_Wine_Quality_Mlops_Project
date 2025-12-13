@@ -21,7 +21,7 @@ class ModelTrainingPipeline:
             logging.info(">>> Model Training Stage Completed Successfully <<<")
 
         except Exception as e:
-            logging.error("❌ Error occurred in Model Training Stage")
+            logging.error(" Error occurred in Model Training Stage")
             logging.exception(e)
             raise e
 

@@ -2,7 +2,7 @@ import os
 from WineQuality_Project.constants import *
 from WineQuality_Project.utils.common import read_yaml,create_directories
 from WineQuality_Project.entity.config_entity import DataIngestionConfig,ModelTrainingConfig
-from WineQuality_Project.entity.config_entity import DataValidationConfig,DataTransformationconfig
+from WineQuality_Project.entity.config_entity import DataValidationConfig,DataTransformationconfig,ModelEvaluationConfig
 class ConfigManager:
     def __init__(self,
                  config_filepath: Path = CONFIG_FILE_PATH,
@@ -65,3 +65,18 @@ class ConfigManager:
             max_depth=params['max_depth'],
             target_column=self.schema['target_column']
         )
+    
+    
+    def get_model_evaluation_config(self) -> ModelEvaluationConfig:
+        config = self.config['model_evaluation']
+        Path(config['root_dir']).mkdir(parents=True, exist_ok=True)
+        
+        return ModelEvaluationConfig(
+            root_dir=Path(config['root_dir']),
+            test_data_path=Path(config['test_data_path']),
+            model_path=Path(config['model_path']),
+            metric_file_path=Path(config['metric_file_name'])
+        )
+
+    
+    
